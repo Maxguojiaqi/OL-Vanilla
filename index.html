@@ -30,6 +30,7 @@
         outline: #4A74A8 solid 0.15em;
       }
     </style>
+    <script src="./Turfjs/turf.min.js"></script>
   </head>
   <body>
     <a class="skiplink" href="#map">Go to map</a>
@@ -38,31 +39,6 @@
     <button id="zoom-in">Zoom in</button>
     <!-- Pointer events polyfill for old browsers, see https://caniuse.com/#feat=pointer -->
     <script src="https://cdn.jsdelivr.net/npm/elm-pep@1.0.6/dist/elm-pep.js"></script>
-    <script>
-        const map = new ol.Map({
-        layers: [
-            new ol.layer.Tile({
-            source: new ol.source.OSM(),
-            }),
-        ],
-        target: 'map',
-        view: new ol.View({
-            center: [0, 0],
-            zoom: 2,
-        }),
-        });
-
-        document.getElementById('zoom-out').onclick = function () {
-        const view = map.getView();
-        const zoom = view.getZoom();
-        view.setZoom(zoom - 1);
-        };
-
-        document.getElementById('zoom-in').onclick = function () {
-        const view = map.getView();
-        const zoom = view.getZoom();
-        view.setZoom(zoom + 1);
-        };
-    </script>
+    <script src="./index.js"></script>
   </body>
 </html>
