@@ -1,0 +1,37 @@
+curl -u admin:geoserver -v -XPOST -H 'Content-type: text/xml' \
+     -d '<coverageStore>
+         <name>wsgeotiff_imageGeoTiffWGS84_1298678792699</name>
+         <workspace>wsgeotiff</workspace>
+         <enabled>true</enabled>
+         <type>GeoTIFF</type>
+         <url>/home/gis/image_wgs84.tif</url>
+         </coverageStore>' \
+     "http://localhost:8080/geoserver/rest/workspaces/wsgeotiff/coveragestores?configure=all"
+
+curl -u admin:geoserver -v -XPOST -H 'Content-type: text/xml' \
+      -d '<coverage>
+          <name>imageGeoTiffWGS84</name>
+          <title>imageGeoTiffWGS84</title>
+          <nativeCRS>GEOGCS[&quot;WGS 84&quot;,DATUM[&quot;World Geodetic System 1984&quot;,SPHEROID[&quot;WGS 84&quot;,6378137.0, 298.257223563, AUTHORITY[&quot;EPSG&quot;,&quot;7030&quot;]],AUTHORITY[&quot;EPSG&quot;,&quot;6326&quot;]],PRIMEM[&quot;Greenwich&quot;, 0.0, AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]],UNIT[&quot;degree&quot;, 0.017453292519943295],AXIS[&quot;Geodetic longitude&quot;, EAST],AXIS[&quot;Geodetic latitude&quot;, NORTH],AUTHORITY[&quot;EPSG&quot;,&quot;4326&quot;]]</nativeCRS>
+          <srs>EPSG:4326</srs>
+          <latLonBoundingBox><minx>-179.958</minx><maxx>-105.002</maxx><miny>-65.007</miny><maxy>65.007</maxy><crs>EPSG:4326</crs></latLonBoundingBox>
+          </coverage>' \
+      "http://localhost:8080/geoserver/rest/workspaces/wsgeotiff/coveragestores/wsgeotiff_imageGeoTiffWGS84_1298678792699/coverages"
+
+
+
+curl -u admin:geoserver -v -XPOST -H "Content-type: text/xml" -d "<coverageStore><name>heatmap_test</name><workspace>cuas</workspace><enabled>true</enabled><type>GeoTIFF</type><url>file:cuas/testwNaN.tif</url></coverageStore>" "http://localhost:8080/geoserver/rest/workspaces/cuas/coveragestores?configure=all"
+
+curl -u admin:geoserver -v -XPOST -H "Content-type: text/xml" -d "<coverage><name>heatmap_test</name><title>heatmap_test</title><srs>EPSG:4326</srs></coverage>" "http://localhost:8080/geoserver/rest/workspaces/cuas/coveragestores/heatmap_test/coverages"
+
+curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><defaultStyle><name>heatmap</name></defaultStyle><enabled>true</enabled></layer>" "http://localhost:8080/geoserver/rest/layers/cuas:heatmap_test"
+
+<!-- create a new workspace -->
+curl -v -u admin:geoserver -XPOST -H "Content-type: text/xml" -d "<workspace><name>cuas</name></workspace>" http://localhost:8080/geoserver/rest/workspaces
+<!-- list all the styles -->
+curl -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/styles.json 
+<!-- download a style -->
+curl -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/styles/detection_heatmap_style.sld
+<!-- create a new style -->
+curl -v -u admin:geoserver -XPOST -H "Content-type: text/xml" -d "<style><name>heatmap_style_curl</name><filename>reception_heatmap_style.sld</filename></style>" http://localhost:8080/geoserver/rest/styles
+
