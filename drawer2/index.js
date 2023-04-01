@@ -14,11 +14,11 @@ class OpenSideBarControl extends ol.control.Control {
       target: options.target,
     });
 
-    button.innerHTML = 'Add New Asset';
+    button.innerHTML = 'Add New Observation';
     button.addEventListener('click', () => {
-      document.getElementById("addDrawer").style.width = "250px";
+      document.getElementById("addFeatureDrawer").style.width = "250px";
     });
-    document.getElementById("closeAddDrawer").addEventListener("click", ()=>{document.getElementById("addDrawer").style.width = "0";} );
+    document.getElementById("closeAddDrawer").addEventListener("click", ()=>{document.getElementById("addFeatureDrawer").style.width = "0";} );
 
     let addPointDraw = ()=>{
       let pointDraw = new ol.interaction.Draw({
@@ -45,7 +45,7 @@ class OpenSideBarControl extends ol.control.Control {
 }
 
 
-document.getElementById("addDrawerContent").innerHTML = `<p>Add new feature:</p>
+document.getElementById("addFeatureDrawerContent").innerHTML = `<p>Add new feature:</p>
                                                             <label>Feature Name: </label><input type="text" id="newFeatureName"><br>
                                                             <label>Feature Type: </label><br>
                                                             <select id="newFeatureType">
@@ -60,9 +60,14 @@ document.getElementById("addDrawerContent").innerHTML = `<p>Add new feature:</p>
 let drawSource = new ol.source.Vector({wrapX: false});
 let drawVectorLayer = new ol.layer.Vector({source: drawSource});
 
+const url = 'https://maps.ottawa.ca/arcgis/rest/services/Zoning/MapServer';
+
+let ottawaTileLayer = new ol.layer.Tile({source:new ol.source.TileArcGISRest({url: url})});
+
 const map = new ol.Map({
     layers: [
         new ol.layer.Tile({source: new ol.source.OSM()}),
+        ottawaTileLayer,
         drawVectorLayer
     ],
     target: 'map',

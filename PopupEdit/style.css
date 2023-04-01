@@ -88,7 +88,7 @@ body {
   .editDrawer a {font-size: 18px;}
 }
 
-.addDrawer {
+.addFeatureDrawer {
   height: 500px;
   width: 0;
   position: fixed;
@@ -101,7 +101,7 @@ body {
   padding-top: 60px;
 }
 
-.addDrawer a {
+.addFeatureDrawer a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
@@ -110,11 +110,11 @@ body {
   transition: 0.3s;
 }
 
-.addDrawer a:hover {
+.addFeatureDrawer a:hover {
   color: #f1f1f1;
 }
 
-.addDrawer .closebtn {
+.addFeatureDrawer .closebtn {
   position: absolute;
   top: 0;
   right: 25px;
@@ -123,8 +123,8 @@ body {
 }
 
 @media screen and (max-height: 450px) {
-  .addDrawer {padding-top: 15px;}
-  .addDrawer a {font-size: 18px;}
+  .addFeatureDrawer {padding-top: 15px;}
+  .addFeatureDrawer a {font-size: 18px;}
 }
 
 .edit-widget {

@@ -1,9 +1,14 @@
 .map {
   width: 100%;
   height: 600px;
+  margin: 0;
+  position: absolute;
+  top: 25em;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
-.ol-popup {
+/* .ol-popup {
   position: absolute;
   background-color: white;
   box-shadow: 0 1px 4px rgba(0,0,0,0.2);
@@ -43,7 +48,7 @@
 }
 .ol-popup-closer:after {
   content: "✖";
-}
+} */
 
 body {
   font-family: "Lato", sans-serif;
@@ -58,7 +63,7 @@ body {
   width: 0;
   position: fixed;
   z-index: 1;
-  top: 0;
+  top: 6em;
   left: 0;
   background-color: lightblue;
   overflow-x: hidden;
@@ -92,12 +97,12 @@ body {
   .editDrawer a {font-size: 18px;}
 }
 
-.addDrawer {
+.addFeatureDrawer {
   height: 500px;
   width: 0;
   position: fixed;
   z-index: 1;
-  top: 0;
+  top: 6em;
   right: 0;
   background-color: lightgreen;
   overflow-x: hidden;
@@ -105,7 +110,7 @@ body {
   padding-top: 60px;
 }
 
-.addDrawer a {
+.addFeatureDrawer a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
@@ -114,11 +119,11 @@ body {
   transition: 0.3s;
 }
 
-.addDrawer a:hover {
+.addFeatureDrawer a:hover {
   color: #f1f1f1;
 }
 
-.addDrawer .closebtn {
+.addFeatureDrawer .closebtn {
   position: absolute;
   top: 0;
   right: 25px;
@@ -126,9 +131,13 @@ body {
   margin-left: 50px;
 }
 
+#addFeatureDrawerContent {
+  margin:15px;
+}
+
 @media screen and (max-height: 450px) {
-  .addDrawer {padding-top: 15px;}
-  .addDrawer a {font-size: 18px;}
+  .addFeatureDrawer {padding-top: 15px;}
+  .addFeatureDrawer a {font-size: 18px;}
 }
 
 .edit-widget {
