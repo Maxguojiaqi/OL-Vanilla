@@ -1,0 +1,16 @@
+# create a apache server
+docker container run --detach --publish 8080:80 --name apache httpd
+# create a sql server 
+docker container run --detach --publish 3306:3306 --name database -e MYSQL_RANDOM_ROOT_PASSWORD=yes mysql
+
+# running a container interactively.
+# image called ubuntu
+# image type ubuntu 
+# command/program to run from the container: bash
+docker container run -it --name ubuntu ubuntu bash
+
+# running a container interactively.
+# image called alpine
+# image type alpine 
+# command/program to run from the container: sh
+docker container run -it --name alpine alpine sh

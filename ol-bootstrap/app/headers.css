@@ -68,6 +68,11 @@
 .map {
   width: 100%;
   height: 600px;
+  margin: 0;
+  position: absolute;
+  top: 25em;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 a.skiplink {
   position: absolute;
@@ -87,4 +92,109 @@ a.skiplink:focus {
 }
 #map:focus {
   outline: #4A74A8 solid 0.15em;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidebar{
+  margin: 10px;
+}
+
+.editDrawer {
+  height: 500px;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 6em;
+  left: 0;
+  background-color: lightblue;
+  overflow-x: hidden;
+  transition: 0.2s;
+  padding-top: 60px;
+}
+
+.editDrawer a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.editDrawer a:hover {
+  color: #f1f1f1;
+}
+
+.editDrawer .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .editDrawer {padding-top: 15px;}
+  .editDrawer a {font-size: 18px;}
+}
+
+#editButtons{
+  margin: 2em;
+}
+
+.addFeatureDrawer {
+  height: 500px;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 6em;
+  right: 0;
+  background-color: lightgreen;
+  overflow-x: hidden;
+  transition: 0.2s;
+  padding-top: 60px;
+}
+
+.addFeatureDrawer a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.addFeatureDrawer a:hover {
+  color: #f1f1f1;
+}
+
+.addFeatureDrawer .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#addFeatureDrawerContent {
+  margin:15px;
+}
+
+@media screen and (max-height: 450px) {
+  .addFeatureDrawer {padding-top: 15px;}
+  .addFeatureDrawer a {font-size: 18px;}
+}
+
+.edit-widget {
+  position: absolute;
+  bottom: 0.5em;
+  right: 0.5em;
+  height: 50px;
+  width: 100px
+}
+.ol-touch .edit-widget {
+  bottom: 80px;
 }

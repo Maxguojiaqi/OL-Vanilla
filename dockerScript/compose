@@ -1,0 +1,7 @@
+# setup volumesnetworks and start all containers 
+docker-compose up
+# stop all containers and remove cont/vol/net
+docker-compose down
+# up/down with specific file name
+docker-compose -f drupal.yml up -d
+docker-compose -f drupal.yml down

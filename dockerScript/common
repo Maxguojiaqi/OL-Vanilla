@@ -1,0 +1,54 @@
+# check docker version and information. 
+docker version 
+docker info
+
+# run a docker.
+docker container run 
+docker run
+
+
+# download nginx, 
+# start the container
+# open port 80 on host, 
+# make the process detach
+# call the name webhost
+# route traffic to container ip port 80, nginx has default port 80
+docker container run --detach --publish 80:80 --name webhost nginx
+docker container run -d -p 80:80 --name webhost nginx
+
+# create a container with environment variable
+# open port 3306 on host, 3306 from the MySQL database
+docker container run --detach --publish 3306:3306 --name database -e MYSQL_RANDOM_ROOT_PASSWORD=yes mysql
+
+# check the port from a running docker called 87655dd2d23b553965f341810392f3621463faf8b2c8cab3b76d94a05292b36f
+docker container port 87655dd2d23b553965f341810392f3621463faf8b2c8cab3b76d94a05292b36f
+
+# check the logs for running container: webhost
+docker container logs webhost
+
+# check running container 
+docker container top
+
+# check other commands 
+docker container --help
+
+# check all the running process 
+docker container ps
+
+# start/stop a container named webhost
+docker start/stop webhost 
+
+# inspect a running container named apache 
+docker inspect apache
+docker inspect --format '{{.NetworkSettings.IPAddress}}' apache
+
+# start the container in the forground
+docker container start -ai ubuntu
+
+# connect to a running container
+# container name ubuntu 
+# command/program to run, bash
+docker container exec -it ubuntu bash
+
+
+

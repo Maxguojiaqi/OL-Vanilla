@@ -1,0 +1,19 @@
+# clean up all the unused volumes 
+docker volume prune
+# create database with default volume
+docker container run -d --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=True mysql
+# from inspect mysql, the "Mounts" section will tell you the location of the mount
+docker container inspect mysql
+# check all the existing volumes 
+docker volume ls
+# from inspect volume, the "Mountpoint" will tell you the location of the data
+docker volume inspect VOLUME NAME
+# create a named volume: mysql-db
+docker container run -d --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=True -v mysql-db:/var/lib/mysql mysql
+# create a new docker use the previously created named volume: mysql-db
+docker container run -d --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=True -v mysql-db:/var/lib/mysql mysql
+# create a docker volume 
+docker volume create 
+# map my current host directory to the docker nginx
+docker container run -d --name nginx -p 80:80 -v $(pwd):/usr/share/nginx/html nginx
+

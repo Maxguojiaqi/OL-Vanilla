@@ -1,0 +1,13 @@
+FROM drupal
+RUN apt-get update && apt-get install -y git \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /var/www/html/thems
+
+RUN git clone YOUR-GIT-PROJECT  \
+    && chown -R www-data:www-data bootstrap
+
+WORKDIR /var/www/html
+
+
+

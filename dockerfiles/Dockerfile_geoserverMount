@@ -1,0 +1,5 @@
+
+FROM docker.osgeo.org/geoserver:2.22.0
+
+RUN mkdir -p /geoserver_data/bind_data
+

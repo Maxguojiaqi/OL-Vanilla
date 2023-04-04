@@ -1,0 +1,15 @@
+# pull the remote geoserver image from nexus repo
+docker pull docker.osgeo.org/geoserver:2.22.0
+# run the geoserver from the detach mode.
+docker run -it -p 80:8080 docker.osgeo.org/geoserver:2.22.0
+
+# map my current host directory to the docker nginx
+docker container run -it --name geoserver -p 80:8080 -d -v $(pwd):/opt/geoserver_data docker.osgeo.org/geoserver:2.22.0 
+
+# pull and start postgis mysecretpassword 
+docker pull postgis/postgis 
+docker run -p 5432:5432 --name max-postgis -e POSTGRES_PASSWORD=password -d postgis/postgis
+
+# pull and start pgadmin 172.17.0.2
+docker pull dpage/pgadmin4
+docker run -p 5050:80 -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" -e PGADMIN_DEFAULT_PASSWORD="root" dpage/pgadmin4

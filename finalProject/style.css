@@ -97,6 +97,10 @@ body {
   .editDrawer a {font-size: 18px;}
 }
 
+#editButtons{
+  margin: 2em;
+}
+
 .addFeatureDrawer {
   height: 500px;
   width: 0;

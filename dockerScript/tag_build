@@ -1,0 +1,12 @@
+# give the image nginx a new tag called maxguo/nginx:1
+docker image tag nginx maxguo/nginx:1
+# publish the docker 
+docker image push maxguo/nginx:1
+# check the docker remote login information
+cat .docker/config.json
+# login to the remote repo
+docker login
+# build a docker image using a specific file 
+docker build -f some-docker file
+# build the docker image called/tag maxtest
+docker image build -t maxtest

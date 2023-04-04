@@ -1,0 +1,6 @@
+# build the nginx
+FROM nginx:latest 
+# change the working directory to the hosting folder 
+WORKDIR /usr/share/nginx/html
+# over write the default index.html
+COPY index.html index.html
