@@ -184,14 +184,15 @@ map.on('click', async (evt) => {
                                                                   <button id="findHospital">Find Close to Hospital</button>
                                                                 </div>`;
       document.getElementById("findHospital").addEventListener("click", ()=>{
-        let drawFeatures = drawSource.getFeatures();
+        let currentObservationBuffer = ol.extent.buffer(mapFeatures[0].getGeometry().getExtent(), 0.001); 
+        let observationBufferGeometry = new ol.geom.Polygon.fromExtent(currentObservationBuffer);
         let hospitalFeatures = jsonVectorSource.getFeatures();
         let intersectFeatures = [];
-        hospitalFeatures.forEach(feature => {
-          if (mapFeatures[0].getGeometry().intersectsCoordinate(feature.getGeometry().getCoordinates())) {
+        hospitalFeatures.forEach(hospitalFeature => {
+          if (observationBufferGeometry.intersectsCoordinate(hospitalFeature.getGeometry().getCoordinates())) {
       
             // add the intersecting feature to the array
-            intersectFeatures.push(feature);
+            intersectFeatures.push(hospitalFeature);
           }
         });
       });
