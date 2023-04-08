@@ -1,3 +1,8 @@
+a { 
+  text-decoration: none; 
+  color: white;
+}
+
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;
@@ -67,10 +72,10 @@
 
 .map {
   width: 100%;
-  height: 600px;
+  height: 700px;
   margin: 0;
   position: absolute;
-  top: 25em;
+  top: 30em;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
@@ -111,7 +116,7 @@ body {
   left: 0;
   background-color: lightblue;
   overflow-x: hidden;
-  transition: 0.2s;
+  transition: 0.1s;
   padding-top: 60px;
 }
 
@@ -154,7 +159,7 @@ body {
   right: 0;
   background-color: lightgreen;
   overflow-x: hidden;
-  transition: 0.2s;
+  transition: 0.1s;
   padding-top: 60px;
 }
 
