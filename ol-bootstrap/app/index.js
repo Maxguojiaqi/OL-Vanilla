@@ -248,12 +248,35 @@ const url = 'https://maps.ottawa.ca/arcgis/rest/services/Zoning/MapServer';
 let ottawaTileLayer = new ol.layer.Tile({source:new ol.source.TileArcGISRest({url: url})});
 
 // observation source and layer
-let observationSource = new ol.source.Vector({wrapX: false});
-let observationLayer = new ol.layer.Vector({source: observationSource});
+// let observationSource = new ol.source.Vector({wrapX: false});
+// let observationLayer = new ol.layer.Vector({source: observationSource});
 
 // select source and layer
 let drawSelectSource = new ol.source.Vector({wrapX: false});
 let drawSelectLayer = new ol.layer.Vector({source: drawSelectSource});
+
+// observation layer source and layer
+
+const observationSource = new ol.source.Vector({
+  format: new ol.format.GeoJSON(),
+  url: function (extent) {
+    return (
+      'http://localhost/geoserver/cite/ows?service=WFS&' +
+      'version=1.1.0&request=GetFeature&typeName=cite%3Aobservation&maxFeatures=50&' +
+      'outputFormat=application/json&srsname=EPSG:4326&' 
+      +
+      'bbox=' +
+      extent.join(',') +
+      ',EPSG:4326'
+    );
+  },
+  strategy: ol.loadingstrategy.bbox,
+});
+
+const observationLayer = new ol.layer.Vector({
+  source: observationSource
+});
+
 
 const map = new ol.Map({
     layers: [
