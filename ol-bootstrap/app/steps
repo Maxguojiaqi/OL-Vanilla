@@ -1,0 +1,9 @@
+1: after install geoserver, need to enable cors 
+    - connect to geoserver docker 
+    - modify the web.xml 
+    - enable the first cros policy for tomcat 
+    - enable to below general cros policy
+
+2: from geoserver enable wfs and the access
+ - geoserver from workspace tab, check on WFS under Services 
+ - geoserver from Data tab, modify the read and write rule to allow certain roles 
