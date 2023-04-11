@@ -1,3 +1,6 @@
+// server command 
+// npx http-server ./ -p 8000
+
 class OpenSideBarControl extends ol.control.Control {
   /**
    * @param {Object} [opt_options] Control options.
@@ -33,6 +36,47 @@ class OpenSideBarControl extends ol.control.Control {
           type: document.getElementById("newFeatureType").value,
           mediaPath : document.getElementById("newObervationMedia").value,
         })
+
+        let coords = [-75.695281, 45.3345088];
+        let typeVal = "sample_type";
+        let nameVal = "sample_name";
+      
+        let requestBody = `
+            <wfs:Transaction service="WFS" version="1.0.0"
+              xmlns:wfs="http://www.opengis.net/wfs"
+              xmlns:gml="http://www.opengis.net/gml"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd http://www.openplans.org/cite http://localhost/geoserver/wfs/DescribeFeatureType?typename=docker:poi">
+              <wfs:Insert>
+                <poi>
+                  <geom>
+                    <gml:Point srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+                              <gml:coordinates>
+                                ${coords[1], coords[0]}
+                              </gml:coordinates>
+                    </gml:Point>
+                  </geom>
+                  <type>${typeVal}</type>
+                  <name>${nameVal}</name>
+                </poi>
+              </wfs:Insert>
+            </wfs:Transaction>
+        `
+      
+        let requestOptions = {
+          method: 'POST',
+          headers: {'Content-Type': 'text/xml',
+                    'Access-Control-Allow-Origin': '*'},
+          body: requestBody,
+          redirect: 'follow'
+        };
+      
+        fetch("http://localhost/geoserver/docker/wfs", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
+
       })
     });
 
@@ -248,8 +292,8 @@ const url = 'https://maps.ottawa.ca/arcgis/rest/services/Zoning/MapServer';
 let ottawaTileLayer = new ol.layer.Tile({source:new ol.source.TileArcGISRest({url: url})});
 
 // observation source and layer
-// let observationSource = new ol.source.Vector({wrapX: false});
-// let observationLayer = new ol.layer.Vector({source: observationSource});
+let observationSource = new ol.source.Vector({wrapX: false});
+let observationLayer = new ol.layer.Vector({source: observationSource});
 
 // select source and layer
 let drawSelectSource = new ol.source.Vector({wrapX: false});
@@ -257,25 +301,25 @@ let drawSelectLayer = new ol.layer.Vector({source: drawSelectSource});
 
 // observation layer source and layer
 
-const observationSource = new ol.source.Vector({
-  format: new ol.format.GeoJSON(),
-  url: function (extent) {
-    return (
-      'http://localhost/geoserver/cite/ows?service=WFS&' +
-      'version=1.1.0&request=GetFeature&typeName=cite%3Aobservation&maxFeatures=50&' +
-      'outputFormat=application/json&srsname=EPSG:4326&' 
-      +
-      'bbox=' +
-      extent.join(',') +
-      ',EPSG:4326'
-    );
-  },
-  strategy: ol.loadingstrategy.bbox,
-});
+// const observationSource = new ol.source.Vector({
+//   format: new ol.format.GeoJSON(),
+//   url: function (extent) {
+//     return (
+//       'http://localhost/geoserver/cite/ows?service=WFS&' +
+//       'version=1.1.0&request=GetFeature&typeName=cite%3Aobservation&maxFeatures=50&' +
+//       'outputFormat=application/json&srsname=EPSG:4326&' 
+//       +
+//       'bbox=' +
+//       extent.join(',') +
+//       ',EPSG:4326'
+//     );
+//   },
+//   strategy: ol.loadingstrategy.bbox,
+// });
 
-const observationLayer = new ol.layer.Vector({
-  source: observationSource
-});
+// const observationLayer = new ol.layer.Vector({
+//   source: observationSource
+// });
 
 
 const map = new ol.Map({
@@ -300,6 +344,48 @@ map.addInteraction(observationModify);
 observationModify.on("modifyend", (evt)=>{
   // some modify events
 })
+
+
+let addNewFeature = () => {
+
+  let coords = [-75.695281, 45.3345088];
+  let typeVal = "sample_type";
+  let nameVal = "sample_name";
+
+  let requestBody = `
+      <wfs:Transaction service="WFS" version="1.0.0"
+        xmlns:wfs="http://www.opengis.net/wfs"
+        xmlns:gml="http://www.opengis.net/gml"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd http://www.openplans.org/cite http://localhost/geoserver/wfs/DescribeFeatureType?typename=docker:poi">
+        <wfs:Insert>
+          <poi>
+            <geom>
+              <gml:Point srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+                        <gml:coordinates>
+                          ${coords[1], coords[0]}
+                        </gml:coordinates>
+              </gml:Point>
+            </geom>
+            <type>${typeVal}</type>
+            <name>${nameVal}</name>
+          </poi>
+        </wfs:Insert>
+      </wfs:Transaction>
+  `
+
+  let requestOptions = {
+    method: 'POST',
+    headers: {'Content-Type': 'text/xml'},
+    body: requestBody,
+    redirect: 'follow'
+  };
+
+  fetch("http://localhost/geoserver/docker/wfs", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+}
 
 map.on('click', async (evt) => {
     let mapFeatures = await observationLayer.getFeatures(evt.pixel);
