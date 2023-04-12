@@ -23,3 +23,9 @@ docker run -p 5430:5432 --name max-postgis -e POSTGRES_PASSWORD=password -d post
 # password root
 docker pull dpage/pgadmin4
 docker run -p 5050:80 -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" -e PGADMIN_DEFAULT_PASSWORD="root" dpage/pgadmin4
+
+
+# create a web server using nginx
+docker container run --detach --publish 80:80 --name webhost nginx
+# connect to the nginx container and run the bash
+docker exec -it <geoserver container name> /bin/bash
