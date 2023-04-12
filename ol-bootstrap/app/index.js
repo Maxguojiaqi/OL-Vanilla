@@ -37,46 +37,6 @@ class OpenSideBarControl extends ol.control.Control {
           mediaPath : document.getElementById("newObervationMedia").value,
         })
 
-        let coords = [-75.695281, 45.3345088];
-        let typeVal = "sample_type";
-        let nameVal = "sample_name";
-      
-        let requestBody = `
-            <wfs:Transaction service="WFS" version="1.0.0"
-              xmlns:wfs="http://www.opengis.net/wfs"
-              xmlns:gml="http://www.opengis.net/gml"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd http://www.openplans.org/cite http://localhost/geoserver/wfs/DescribeFeatureType?typename=docker:poi">
-              <wfs:Insert>
-                <poi>
-                  <geom>
-                    <gml:Point srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
-                              <gml:coordinates>
-                                ${coords[1], coords[0]}
-                              </gml:coordinates>
-                    </gml:Point>
-                  </geom>
-                  <type>${typeVal}</type>
-                  <name>${nameVal}</name>
-                </poi>
-              </wfs:Insert>
-            </wfs:Transaction>
-        `
-      
-        let requestOptions = {
-          method: 'POST',
-          headers: {'Content-Type': 'text/xml',
-                    'Access-Control-Allow-Origin': '*'},
-          body: requestBody,
-          redirect: 'follow'
-        };
-      
-        fetch("http://localhost/geoserver/docker/wfs", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-
-
       })
     });
 
