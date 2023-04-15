@@ -32,9 +32,10 @@ class OpenSideBarControl extends ol.control.Control {
       pointDraw.on('drawend', (evt) => {
         map.removeInteraction(pointDraw)
         evt.feature.setProperties({
-          name: document.getElementById("newFeatureName").value,
-          type: document.getElementById("newFeatureType").value,
-          mediaPath : document.getElementById("newObervationMedia").value,
+          name: document.getElementById("newObservationName").value,
+          contact: document.getElementById("newObservationContact").value,
+          type: document.getElementById("newObservationType").value,
+          media : document.getElementById("newObervationMedia").value,
         })
 
       })
@@ -57,9 +58,8 @@ class OpenSideBarControl extends ol.control.Control {
             selectedObservationFeatures.push(observationFeature);
           }
         })
-        // drawSelectSource.removeFeature(evt.feature);
-        // drawSelectSource.refresh();
         map.removeInteraction(polygonDraw);
+        window.alert(`Number of observation within region: ${selectedObservationFeatures.length}`)
       })
     });
 
@@ -68,16 +68,17 @@ class OpenSideBarControl extends ol.control.Control {
 
 
 
-document.getElementById("addFeatureDrawerContent").innerHTML = `<label>Observation Name: </label><input type="text" id="newFeatureName"><br>
-                                                            <label>Observation Type: </label><br>
-                                                            <select id="newFeatureType">
-                                                              <option value="UAS">UAS</option>
-                                                              <option value="GCS">GCS</option>
-                                                              <option value="CUAS">CUAS</option>
-                                                            </select><br>
-                                                            <label>Observation Media: </label><input type="file" id="newObervationMedia"><br><br>
-                                                            <button id="addObservationBtn">Add Observation</button>
-                                                            <button id="findNumberOfObservations">Find Number of observation within region</button>`;
+document.getElementById("addFeatureDrawerContent").innerHTML = `<label>Observation Name: </label><input type="text" id="newObservationName"><br>
+                                                                <label>Contact: </label><input type="text" id="newObservationContact"><br>  
+                                                                <label>Type: </label><br>
+                                                                <select id="newObservationType">
+                                                                  <option value="observation">observation</option>
+                                                                  <option value="warning">warning</option>
+                                                                  <option value="danger">danger</option>
+                                                                </select><br>
+                                                                <label>Observation Media: </label><input type="file" id="newObervationMedia"><br><br>
+                                                                <button id="addObservationBtn">Add Observation</button><br><br>
+                                                                <button id="findNumberOfObservations">Find Number of observation within region</button>`;
 
 
 // hospital source and layer
@@ -90,8 +91,8 @@ let hospitalJson = {
       "properties": {},
       "geometry": {
         "coordinates": [
-          -75.66829356321553,
-          45.39596363499578
+          -75.72140919770361,
+          45.39292648838264
         ],
         "type": "Point"
       }
@@ -101,8 +102,8 @@ let hospitalJson = {
       "properties": {},
       "geometry": {
         "coordinates": [
-          -75.6487879258227,
-          45.4014110115379
+          -75.73029966048331,
+          45.389148353456136
         ],
         "type": "Point"
       }
@@ -112,30 +113,8 @@ let hospitalJson = {
       "properties": {},
       "geometry": {
         "coordinates": [
-          -75.6359319375423,
-          45.40358981510846
-        ],
-        "type": "Point"
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "coordinates": [
-          -75.72126906529505,
-          45.39253930637295
-        ],
-        "type": "Point"
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "coordinates": [
-          -75.7308002290209,
-          45.38864776580928
+          -75.66886681678847,
+          45.39622483860944
         ],
         "type": "Point"
       }
@@ -143,15 +122,49 @@ let hospitalJson = {
   ]
 }
 
+let hospitalIconStyle = new ol.style.Style({
+  image: new ol.style.Icon({
+    anchor: [0.5, 1],
+    src: '../icons/hospital.png',
+    scale: 0.06
+  })
+});
+
+let hardwareIconStyle = new ol.style.Style({
+  image: new ol.style.Icon({
+    anchor: [0.5, 1],
+    src: '../icons/hardware.png',
+    scale: 0.18
+  })
+});
+
+const fill = new ol.style.Fill({
+  color: 'blue',
+});
+const stroke = new ol.style.Stroke({
+  color: '#3399CC',
+  width: 1.25,
+});
+
+let observationStyle = new ol.style.Style({
+  image: new ol.style.Circle({
+    fill: fill,
+    stroke: stroke,
+    radius: 6,
+  })
+});
+
+
 let hospitalJsonVectorSource = new ol.source.Vector({
   features: new ol.format.GeoJSON().readFeatures(hospitalJson),
   projection: "EPSG:4326"
 });
 
 const hospitalJsonVectorLayer = new ol.layer.Vector({
-  source: hospitalJsonVectorSource
+  source: hospitalJsonVectorSource,
+  style: hospitalIconStyle,
+  visible: false
 });
-
 
 
 // hardware store source and layer
@@ -164,8 +177,8 @@ let hardwareStoreJson = {
       "properties": {},
       "geometry": {
         "coordinates": [
-          -75.60981607683134,
-          45.41726898875109
+          -75.70152546066099,
+          45.367318595893664
         ],
         "type": "Point"
       }
@@ -175,63 +188,8 @@ let hardwareStoreJson = {
       "properties": {},
       "geometry": {
         "coordinates": [
-          -75.66071467015202,
-          45.364353967026545
-        ],
-        "type": "Point"
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "coordinates": [
-          -75.7583210558081,
-          45.3525677605077
-        ],
-        "type": "Point"
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "coordinates": [
-          -75.91726926431585,
-          45.302009357420445
-        ],
-        "type": "Point"
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "coordinates": [
-          -75.71304692211976,
-          45.37453696716355
-        ],
-        "type": "Point"
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "coordinates": [
-          -75.66788251408691,
-          45.28037085525892
-        ],
-        "type": "Point"
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "coordinates": [
-          -75.6703148573255,
-          45.38166537346288
+          -75.68775957343716,
+          45.335481130545645
         ],
         "type": "Point"
       }
@@ -244,7 +202,9 @@ let hardwareJsonVectorSource = new ol.source.Vector({
 });
 
 const hardwareJsonVectorLayer = new ol.layer.Vector({
-  source: hardwareJsonVectorSource
+  source: hardwareJsonVectorSource,
+  style: hardwareIconStyle,
+  visible: false
 });
 
 // ottawa data source and layer
@@ -278,14 +238,17 @@ const observationSource = new ol.source.Vector({
 });
 
 const observationLayer = new ol.layer.Vector({
-  source: observationSource
+  source: observationSource,
+  style: observationStyle,
 });
 
 
 const map = new ol.Map({
     layers: [
         new ol.layer.Tile({ source: new ol.source.OSM()}),
-        // ottawaTileLayer,
+        ottawaTileLayer,
+        hospitalJsonVectorLayer,
+        hardwareJsonVectorLayer,
         observationLayer,
         drawSelectLayer
     ],
@@ -295,6 +258,11 @@ const map = new ol.Map({
         zoom: 14,
         projection: "EPSG:4326"
     }),
+});
+
+map.on('movestart', () => {
+  hardwareJsonVectorLayer.setVisible(false);
+  hospitalJsonVectorLayer.setVisible(false);
 });
 
 
@@ -350,62 +318,78 @@ let addNewFeature = () => {
 map.on('click', async (evt) => {
     let mapFeatures = await observationLayer.getFeatures(evt.pixel);
     if (mapFeatures.length != 0) {
+      let mediaVal = "observation.png";
+      if (mapFeatures[0].getProperties().media != null) {
+        mediaVal = mapFeatures[0].getProperties().media.split("\\")[2];
+      }
       document.getElementById("editDrawer").style.width = "250px";
       document.getElementById("closeEditDrawer").addEventListener("click", ()=>{document.getElementById("editDrawer").style.width = "0";} );
-      document.getElementById("editDrawerContent").innerHTML = `<ul id="currentObservation">
-                                                                  <li>Observation Name:</li>
-                                                                  <label>${mapFeatures[0].getProperties().name}</label>
-                                                                  <li>Observation Type:</li>
-                                                                  <label>${mapFeatures[0].getProperties().type}</label>
-                                                                  <li>Observation Media: </li>
-                                                                  <label>${mapFeatures[0].getProperties().mediaPath.split("\\")[2]}</label>
-                                                                </ul>
-                                                                <ul id="editObservation" hidden>
-                                                                  <li>Observation Type: <input type="text" id="observationType" ></li>
-                                                                  <li>Observation Name: <input type="text" id="observationName"></li>
-                                                                  <li>Observation Media: <input type="file" id="observationFile"></li>
-                                                                </ul>
-                                                                <div id="editButtons">
+      document.getElementById("editDrawerContent").innerHTML = `<div id="currentObservation">
+                                                                <h5>Name:</h5>
+                                                                <label>${mapFeatures[0].getProperties().name}</label><br>
+                                                                <h5>Type:</h5>
+                                                                <label>${mapFeatures[0].getProperties().type}</label><br>
+                                                                <h5>Media: </h5>
+                                                                <label>${mediaVal}</label>
+                                                                </div>
+                                                        
+                                                                <div id="editObservation" hidden>
+                                                                  <label>Observation Name: </label><input type="text" id="editObservationName"><br>
+                                                                  <label>Contact: </label><input type="text" id="editObservationContact"><br>  
+                                                                  <label>Type: </label><br>
+                                                                  <select id="editObservationType">
+                                                                    <option value="observation">observation</option>
+                                                                    <option value="warning">warning</option>
+                                                                    <option value="danger">danger</option>
+                                                                  </select><br>
+                                                                  <label>Observation Media: </label><input type="file" id="editObervationMedia">
+                                                                </div>
+                                                                <hr>
+                                                                <div>
                                                                   <button id="enableEditButton">Enable Edit</button>
                                                                   <button id="disableEditButton" hidden>Disable Edit</button>
                                                                   <button id="updateFeatureBtn" hidden>Apply Edit</button>
                                                                 </div>
+                                                                <br>
                                                                 <div>
-                                                                  <button id="findHospital">Find Hospital within 3 km</button>
+                                                                  <button id="findHospital">Find Hospital within 3 km</button><br><br>
                                                                   <button id="findHardwareStore">Find Hardware Store within 3km</button>
                                                                 </div>`;
       document.getElementById("findHospital").addEventListener("click", ()=>{
-        let currentObservationBuffer = ol.extent.buffer(mapFeatures[0].getGeometry().getExtent(), 0.03); 
-        let observationBufferGeometry = new ol.geom.Polygon.fromExtent(currentObservationBuffer);
-        let hospitalFeatures = jsonVectorSource.getFeatures();
-        let hospitalFeaturesWithin3km = [];
-        hospitalFeatures.forEach(hospitalFeature => {
-          if (observationBufferGeometry.intersectsCoordinate(hospitalFeature.getGeometry().getCoordinates())) {
+        hospitalJsonVectorLayer.setVisible(true);
+        // let currentObservationBuffer = ol.extent.buffer(mapFeatures[0].getGeometry().getExtent(), 0.03); 
+        // let observationBufferGeometry = new ol.geom.Polygon.fromExtent(currentObservationBuffer);
+        // let hospitalFeatures = jsonVectorSource.getFeatures();
+        // let hospitalFeaturesWithin3km = [];
+        // hospitalFeatures.forEach(hospitalFeature => {
+        //   if (observationBufferGeometry.intersectsCoordinate(hospitalFeature.getGeometry().getCoordinates())) {
       
-            // add the intersecting feature to the array
-            hospitalFeaturesWithin3km.push(hospitalFeature);
-          }
-        });
+        //     // add the intersecting feature to the array
+        //     hospitalFeaturesWithin3km.push(hospitalFeature);
+        //   }
+        // });
       });
 
       document.getElementById("findHardwareStore").addEventListener("click", ()=>{
-        let currentObservationBuffer = ol.extent.buffer(mapFeatures[0].getGeometry().getExtent(), 0.03); 
-        let observationBufferGeometry = new ol.geom.Polygon.fromExtent(currentObservationBuffer);
-        let hardwareStoreFeatures = jsonVectorSource.getFeatures();
-        let hardwareFeautresWithin3km = [];
-        hardwareStoreFeatures.forEach(hospitalFeature => {
-          if (observationBufferGeometry.intersectsCoordinate(hospitalFeature.getGeometry().getCoordinates())) {
+        hardwareJsonVectorLayer.setVisible(true);
+        // let currentObservationBuffer = ol.extent.buffer(mapFeatures[0].getGeometry().getExtent(), 0.03); 
+        // let observationBufferGeometry = new ol.geom.Polygon.fromExtent(currentObservationBuffer);
+        // let hardwareStoreFeatures = jsonVectorSource.getFeatures();
+        // let hardwareFeautresWithin3km = [];
+        // hardwareStoreFeatures.forEach(hospitalFeature => {
+        //   if (observationBufferGeometry.intersectsCoordinate(hospitalFeature.getGeometry().getCoordinates())) {
       
-            // add the intersecting feature to the array
-            hardwareFeautresWithin3km.push(hospitalFeature);
-          }
-        });
+        //     // add the intersecting feature to the array
+        //     hardwareFeautresWithin3km.push(hospitalFeature);
+        //   }
+        // });
       });
       document.getElementById("updateFeatureBtn").addEventListener("click", ()=>{
         mapFeatures[0].setProperties({
-          name : document.getElementById("featureName").value,
-          type : document.getElementById("featureType").value,
-          orientation : document.getElementById("featureOrientation").value,
+          name : document.getElementById("editObservationName").value,
+          type : document.getElementById("editObservationType").value,
+          contact : document.getElementById("editObservationContact").value,
+          media : document.getElementById("editObervationMedia").value,
         })
       });
       document.getElementById("enableEditButton").addEventListener("click", ()=>{

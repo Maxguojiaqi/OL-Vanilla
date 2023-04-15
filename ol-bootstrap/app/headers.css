@@ -147,7 +147,15 @@ body {
 }
 
 #editButtons{
-  margin: 2em;
+  margin: 1em;
+}
+
+#currentObservation {
+  margin: 1em;
+}
+
+#editObservation {
+  margin: 1em;
 }
 
 .addFeatureDrawer {
