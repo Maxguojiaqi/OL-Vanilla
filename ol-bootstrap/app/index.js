@@ -66,6 +66,29 @@ class OpenSideBarControl extends ol.control.Control {
   }
 }
 
+class ApplyChangeControl extends ol.control.Control {
+  /**
+   * @param {Object} [opt_options] Control options.
+   */
+  constructor(opt_options) {
+    const options = opt_options || {};
+    const button = document.createElement('button');
+    const element = document.createElement('div');
+    element.className = 'commit-widget ol-unselectable';
+    element.appendChild(button);
+    super({
+      element: element,
+      target: options.target,
+    });
+
+    button.innerHTML = 'Apply Changes';
+    button.addEventListener('click', () => {
+      console.log("Apply Changes");
+    });
+
+  }
+}
+
 
 
 document.getElementById("addFeatureDrawerContent").innerHTML = `<label>Observation Name: </label><input type="text" id="newObservationName"><br>
@@ -267,6 +290,7 @@ map.on('movestart', () => {
 
 
 map.addControl(new OpenSideBarControl);
+map.addControl(new ApplyChangeControl);
 const observationModify = new ol.interaction.Modify({source: observationSource});
 map.addInteraction(observationModify);
 observationModify.on("modifyend", (evt)=>{
