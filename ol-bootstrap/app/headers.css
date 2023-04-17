@@ -147,7 +147,15 @@ body {
 }
 
 #editButtons{
-  margin: 2em;
+  margin: 1em;
+}
+
+#currentObservation {
+  margin: 1em;
+}
+
+#editObservation {
+  margin: 1em;
 }
 
 .addFeatureDrawer {
@@ -201,5 +209,16 @@ body {
   width: 100px
 }
 .ol-touch .edit-widget {
+  bottom: 80px;
+}
+
+.commit-widget {
+  position: absolute;
+  bottom: 0.5em;
+  left: 0.5em;
+  height: 50px;
+  width: 100px
+}
+.ol-touch .commit-widget {
   bottom: 80px;
 }
